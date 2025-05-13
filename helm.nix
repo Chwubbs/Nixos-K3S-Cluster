@@ -9,14 +9,14 @@ let
     ];
   };
 
-  my-helmfile = pkgs.helmfile-wrapped.override {
-    inherit (my-kubernetes-helm) pluginsDir;
-  };
+  #my-helmfile = pkgs.helmfile-wrapped.override {
+    #inherit (my-kubernetes-helm) pluginsDir;
+  #};
 in
 
 {
   environment.systemPackages =  [
     my-kubernetes-helm
-    my-helmfile
+    #my-helmfile
   ];
 }
