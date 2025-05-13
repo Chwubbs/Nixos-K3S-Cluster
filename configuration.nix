@@ -25,6 +25,9 @@
   # Enable networking
   networking.networkmanager.enable = true;
 
+  networking.extraHosts = "192.168.0.14 homepage.local";
+
+
   # Set your time zone.
   time.timeZone = "America/New_York";
 
@@ -56,6 +59,9 @@
     role = "server";
     tokenFile = /home/homelab1/.secrets/secrets/token;
     clusterInit = true;
+    extraFlags = [
+      "--tls-san=192.168.0.166"
+    ];
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
@@ -64,7 +70,11 @@
     description = "HomeLab1";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [];
+    shell = pkgs.zsh;
   };
+
+  programs.zsh.enable = true;
+  programs.starship.enable = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -74,8 +84,9 @@
    pwgen
    git
    zsh
+   starship
   ];
-
+  
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
@@ -90,11 +101,11 @@
    services.openssh.enable = true;
 
   # Open ports in the firewall.
-   networking.firewall.allowedTCPPorts = [6443];
+   networking.firewall.allowedTCPPorts = [6443 80 443 3000];
    networking.firewall.allowedUDPPorts = [8472];
   
   # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
+   networking.firewall.enable = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
